@@ -10,13 +10,14 @@ import java.util.List;
 
 import com.revature.models.BankAccount;
 import com.revature.models.Employee;
+import com.revature.models.Movie;
 import com.revature.util.ConnectionFactory;
 
 public class NTCBankPostgresDAO implements NTCBankDAO {
 	
 	private ConnectionFactory cf = ConnectionFactory.getConnectionFactory();
 	
-	public List<NTCBank> findAll() {
+	public List<Employee> findAll() {
 		Connection conn = this.cf.getConnection();
 		
 		List<Employee> all = new ArrayList<Employee>();
@@ -44,34 +45,48 @@ public class NTCBankPostgresDAO implements NTCBankDAO {
 	public BankAccount saveOne(BankAccount ba) {
 		Connection conn = cf.getConnection();
 		
-		PreparedStatement insertCustomerAccount = conn.prepareStatement(sql);
+		
+		
 		try {
-			String newCustomerSql = "insert into "customers" "
-					+ "("customer_name", "bank_account_number")"
-					+ "values (?, ?);";
+			conn.setAutoCommit(false);
+			String newCustomerSql = "insert into \"customers\" "
+					+ "(\"customer_name\", \"bank_account_number\", \"total_balance\")"
+					+ "values (?, ?, 0);";
 					
-//					String sql = "insert into "media" "
-//	                        + "("price", "type", "name", "copyright_owner", "release_date", "rating", "max_age" , "min_age")"
-//	                        + "values (?, ?, ?, ?, ?, ?, ?, ?);";
 			
-			insertCustomerAccount.setString(1, ba.getCustomerName);
-			insertCustomerAccount.setInt(2, ba.getBankAccountNumber);
+			PreparedStatement insertCustomerAccount = conn.prepareStatement(newCustomerSql);
+			
+			insertCustomerAccount.setString(1, ba.getCustomerName());
+			insertCustomerAccount.setInt(2, ba.getBankAccountNumber());
 			
 			ResultSet res = insertCustomerAccount.executeQuery();
-			int newId;
+//			int newId;
 			
 			if(res.next()) {
 				newId = res.getInt("customer_id");
 			} else {
 				throw new SQLException();
 			}
-			
-//			PreparedStatement insertAccountBalance = conn.prepareStatement(sql);
-			
-			
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				conn.commit();
+				conn.setAutoCommit(true);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			cf.releaseConnection(conn);
 		}
+		
+		return ba;
 	}
 	
 }
