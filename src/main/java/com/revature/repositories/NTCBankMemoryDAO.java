@@ -1,4 +1,4 @@
-package com.reavture.repositories;
+package com.revature.repositories;
 
 public class NTCBankMemoryDAO {
 

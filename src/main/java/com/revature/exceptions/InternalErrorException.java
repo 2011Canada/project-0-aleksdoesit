@@ -1,4 +1,4 @@
-package com.reavture.exceptions;
+package com.revature.exceptions;
 
 public class InternalErrorException extends Exception {
 	public InternalErrorException() {

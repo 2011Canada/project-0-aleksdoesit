@@ -19,15 +19,14 @@ public class Customer implements Displayable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Customer(int customerId, String account_name, String password, String name, int account_number,
+	public Customer( String account_name, String password, String name,
 			double total_balance, int bank_account_number) {
 		super();
-		this.customerId = customerId;
 		this.account_name = account_name;
 		this.password = password;
 		this.name = name;
-		this.bank_account_number = bank_account_number;
 		this.total_balance = total_balance;
+		this.bank_account_number = bank_account_number;
 	}
 
 	public int getCustomerId() {

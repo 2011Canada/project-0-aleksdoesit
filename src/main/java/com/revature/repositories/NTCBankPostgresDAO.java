@@ -1,4 +1,4 @@
-package com.reavture.repositories;
+package com.revature.repositories;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

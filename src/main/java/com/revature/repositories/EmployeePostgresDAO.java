@@ -1,4 +1,4 @@
-package com.reavture.repositories;
+package com.revature.repositories;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.reavture.exceptions.AccountNotFoundException;
-import com.reavture.exceptions.InternalErrorException;
+import com.revature.exceptions.AccountNotFoundException;
+import com.revature.exceptions.InternalErrorException;
 import com.revature.models.Employee;
 import com.revature.util.ConnectionFactory;
 
