@@ -1,6 +1,6 @@
 package com.revature.models;
 
-public class Customer {
+public class Customer implements Displayable {
 	
 	private int customerId;
 	
@@ -129,4 +129,10 @@ public class Customer {
 			return false;
 		return true;
 	}
+	
+	public String display() {
+		return "Welcome back " + this.getName() + "! Your Account Number is: " + this.getBank_Account_number() + ". And your current account balance is: $" + this.getTotal_balance();
+	}
+	
+	
 }
