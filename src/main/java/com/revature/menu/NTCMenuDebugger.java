@@ -1,4 +1,4 @@
-package com.revature.menu;
+package com.revature.menu; 
 
 public class NTCMenuDebugger {
 
@@ -6,7 +6,7 @@ public class NTCMenuDebugger {
 		
 		NTCMenu menu = new NTCMenu();
 		
-		menu.welcomeMenu();
+		menu.mainMenu();
 
 	}
 

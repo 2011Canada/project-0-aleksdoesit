@@ -130,7 +130,7 @@ public class Customer implements Displayable {
 	}
 	
 	public String display() {
-		return "Welcome back " + this.getName() + "! Your Account Number is: " + this.getBank_Account_number() + ". And your current account balance is: $" + this.getTotal_balance();
+		return "Welcome back to New Toronto Credit, we're excited to serve you " + this.getName() + "! Your Account Number is: " + this.getBank_Account_number() + ". And your current account balance is: $" + this.getTotal_balance();
 	}
 	
 	

@@ -1,6 +1,6 @@
 package com.revature.models;
 
-public class Employee {
+public class Employee implements Displayable {
 	
 	private int employee_id;
 	
@@ -101,6 +101,8 @@ public class Employee {
 		return true;
 	}
 	
-	
+	public String display() {
+		return "Welcome back " + this.getEmployee_name() + ". Your Employee Number is: " + this.getEmployee_id() + ". What would you like to do today?";
+	}
 
 }

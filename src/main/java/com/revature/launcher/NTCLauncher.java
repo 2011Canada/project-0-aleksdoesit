@@ -5,10 +5,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.revature.models.Customer;
+import com.revature.models.Employee;
 
 public class NTCLauncher {
 	
 	private static Customer currentCustomer;
+	private static Employee currentEmployee;
 	
 	
 	
@@ -16,6 +18,10 @@ public class NTCLauncher {
 
 	public static Customer getCurrentCustomer() {
 		return currentCustomer;
+	}
+	
+	public static Employee getCurrentEmployee() {
+		return currentEmployee;
 	}
 
 
@@ -25,6 +31,9 @@ public class NTCLauncher {
 	}
 
 
+	public static void setCurrentEmployee(Employee currentEmployee) {
+		NTCLauncher.currentEmployee = currentEmployee;
+	}
 
 	public static void main(String[] args) {
 
@@ -32,5 +41,4 @@ public class NTCLauncher {
 		System.out.println("hello world!");
 		
 	}
-
 }
