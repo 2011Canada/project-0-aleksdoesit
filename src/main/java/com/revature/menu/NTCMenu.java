@@ -3,10 +3,14 @@ package com.revature.menu;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
+import com.revature.exceptions.AccountNotCreatedException;
+import com.revature.exceptions.AccountNotFoundException;
 import com.revature.launcher.Entertainment720Launcher;
 import com.revature.launcher.NTCLauncher;
+import com.revature.models.Customer;
 import com.revature.models.Displayable;
 import com.revature.repositories.CustomerDAO;
 import com.revature.repositories.CustomerPostgresDAO;
@@ -31,7 +35,7 @@ public class NTCMenu {
 
 	int userChoice = -10;
 
-	public void welcomeMenu() {
+	public static void welcomeMenu() {
 		System.out.println("WELCOME TO NEW TORONTO CREDIT");
 		System.out.println("Please choose one of the following options: ");
 		System.out.println("1. Existing Customer Login");
@@ -48,28 +52,80 @@ public class NTCMenu {
 		String account_name = this.userIn.nextLine();
 		System.out.println("Please enter your password, then hit 'Enter': ");
 		String password = this.userIn.nextLine();
-		System.out.println(this.cs.login(account_name, password).display());
 		
-		if (this.cs.login(account_name, password).accountExists) {
-			
-			customerSubMenuTwo(cs);
-			
-		} else {
-			
-			System.out.println("Please enter a valid account name and password");
-			
-		}
+
+		System.out.println(this.cs.login(account_name, password).display());
+		String dummy2 = this.userIn.nextLine();
+		customerSubMenuTwo(cs);			
+
+
 
 	}
 	
 	
 	private void customerSubMenuTwo(CustomerService cs) {
 		
-		System.out.println("BIG FFARTS ITS WORKING!");
-		System.out.println();
-		System.out.println();
+		System.out.println("What would you like to do today?");
+		System.out.println("1. Make a deposit");
+		System.out.println("2. Make a withdrawl");
+		System.out.println("0. Return to main menu");
 		int userChoice = this.userIn.nextInt();
 		
+		switch (userChoice) {
+		
+		case 1:
+			
+			customerDepositSubMenuOne(cs);
+			break;		
+			
+		case 2:
+			
+			customerWithdrawSubMenuOne(cs);
+			break;
+			
+		case 0:
+			
+			welcomeMenu();
+			
+			break;
+		
+		
+		}
+		
+		
+	}
+
+	private void customerWithdrawSubMenuOne(CustomerService cs2) {
+		
+		System.out.println("Your current balance is: " + NTCMenuDebugger.getCurrentCustomer().getTotal_balance());
+		System.out.println("Please enter the amount you would like to withdraw, then hit 'Enter'");
+		double userAmount = this.userIn.nextDouble();
+		
+		if (userAmount < NTCMenuDebugger.getCurrentCustomer().getTotal_balance()) {
+			
+			double newBalance = NTCMenuDebugger.getCurrentCustomer().getTotal_balance() - userAmount;
+			
+			int customerId = NTCMenuDebugger.getCurrentCustomer().getCustomerId();
+			
+			cs2.makeDepositOrWithdrawl(newBalance, customerId);
+			
+			System.out.println("Withdrawl successful. Your new account balance is: " + newBalance);
+			
+			customerSubMenuOne(cs2);
+			
+		} else {
+			
+			System.out.println("Entered amount exceeds available balance, please enter a value less than your current balance of $" + NTCMenuDebugger.getCurrentCustomer().getTotal_balance());
+			
+			
+		}
+		
+		
+		
+	}
+
+	private void customerDepositSubMenuOne(CustomerService cs2) {
+		// TODO Auto-generated method stub
 		
 	}
 
@@ -97,7 +153,7 @@ public class NTCMenu {
 	
 	public void employeeSubMenuTwo(EmployeeService es) {
 		
-//		String dummy = this.userIn.nextLine();
+
 		System.out.println("1. Print all customer accounts");
 		System.out.println("2. Approve new customer accounts");
 		System.out.println("3. Return to main menu");
@@ -106,8 +162,6 @@ public class NTCMenu {
 		switch (userChoice) {
 		
 		case 1:
-			
-			CustomerDAO cd = new CustomerPostgresDAO();
 			
 			System.out.println(cd.findAll());
 		
@@ -127,8 +181,39 @@ public class NTCMenu {
 		}
 		
 	}
+	
+	
+	public void newCustomerSubMenuOne(CustomerDAO cd) throws AccountNotCreatedException {
+		
+		String dummy = this.userIn.nextLine();
+		int accountNumber = 10000 + new Random().nextInt(90000);
+		System.out.println("Welcome to New Toronto Credit new customer registration");
+		System.out.println("Please tell us your full name, then hit 'Enter :'");
+		String customer_name = this.userIn.nextLine();
+		System.out.println("To create a new account please enter an Account Name, then hit 'Enter :'");
+		String account_name = this.userIn.nextLine();
+		System.out.println("Now enter a password you would like to associate with your new account, then hit 'Enter :'");
+		String password = this.userIn.nextLine();
+		Customer c = new Customer(account_name, password, customer_name, 0, accountNumber);
+		cd.createAccount(c);
+		System.out.println("Account Created Successfully!");
+		System.out.println("Please enter zero (0) to return to the main menu and login to use your new account");
+		
+		int userChoice = this.userIn.nextInt();
+		
+		switch (userChoice) {
+		
+		case 0:
+			
+			welcomeMenu();
+		
+			break;	
+			
+		}
+	}
+	
 
-	public void mainMenu() {
+	public void mainMenu() throws AccountNotCreatedException {
 
 		boolean validSelection = false;
 		welcomeMenu();
@@ -150,7 +235,9 @@ public class NTCMenu {
 						break;
 
 					case 2:
-
+						
+						newCustomerSubMenuOne(cd);
+						
 						break;
 
 					case 3:

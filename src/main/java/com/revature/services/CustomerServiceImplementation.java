@@ -5,6 +5,8 @@ import java.util.List;
 import com.revature.exceptions.AccountNotFoundException;
 import com.revature.exceptions.InternalErrorException;
 import com.revature.launcher.NTCLauncher;
+import com.revature.menu.NTCMenu;
+import com.revature.menu.NTCMenuDebugger;
 import com.revature.models.Customer;
 import com.revature.models.Displayable;
 import com.revature.repositories.CustomerDAO;
@@ -12,8 +14,6 @@ import com.revature.repositories.CustomerDAO;
 public class CustomerServiceImplementation implements CustomerService {
 
 	private CustomerDAO cd;
-	
-	boolean accountExists = false;
 	
 	public CustomerServiceImplementation(CustomerDAO cd) {
 		this.cd = cd;
@@ -28,12 +28,11 @@ public class CustomerServiceImplementation implements CustomerService {
 			
 			Customer c = cd.findCustomerByAccountnameAndPassword(account_name, password);
 			NTCLauncher.setCurrentCustomer(c);
-			accountExists = true;
+			NTCMenuDebugger.setCurrentCustomer(c);
 			return c;
 			
 			
 		} catch (AccountNotFoundException | InternalErrorException e) {
-			accountExists = false;
 			return ()->e.getMessage();
 		}
 	}
@@ -41,8 +40,14 @@ public class CustomerServiceImplementation implements CustomerService {
 
 	@Override
 	public List<Customer> printAllAccounts() {
-		// TODO Auto-generated method stub
 		return cd.findAll();
+	}
+
+
+	@Override
+	public void makeDepositOrWithdrawl(double newBalance, int customerId) {
+		Customer c = cd.makeDepositOrWithdrawl(newBalance, customerId);
+		
 	}
 	
 }

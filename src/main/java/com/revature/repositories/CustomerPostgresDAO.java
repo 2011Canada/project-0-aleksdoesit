@@ -8,15 +8,19 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
+import com.revature.exceptions.AccountNotCreatedException;
 import com.revature.exceptions.AccountNotFoundException;
 import com.revature.exceptions.InternalErrorException;
+import com.revature.menu.NTCMenu;
 import com.revature.models.Customer;
 import com.revature.util.ConnectionFactory;
 
 public class CustomerPostgresDAO implements CustomerDAO {
 
 	private ConnectionFactory cf = ConnectionFactory.getConnectionFactory();
+	Scanner userIn = new Scanner(System.in);
 
 	public Customer findCustomerByAccountnameAndPassword(String account_name, String password)
 			throws AccountNotFoundException, InternalErrorException {
@@ -104,43 +108,83 @@ public class CustomerPostgresDAO implements CustomerDAO {
 	}
 
 
-	public Customer createAccount(Customer c) {
+	public Customer createAccount(Customer c) throws AccountNotCreatedException {
 
 		Connection conn = cf.getConnection();
 
 		try {
 			
+			conn.setAutoCommit(false);
+			
 			String sql = "insert into \"customers\" "
 					+ "(\"account_name\", \"password\", \"customer_name\", \"total_balance\", \"bank_account_number\") "
 					+ "values (?, ?, ?, ?, ? );";
+			
 			PreparedStatement insertAccount = conn.prepareStatement(sql);
+				
+				insertAccount.setString(1, c.getAccount_name());
+				insertAccount.setString(2, c.getPassword());
+				insertAccount.setString(3, c.getName());
+				insertAccount.setDouble(4, c.getTotal_balance());
+				insertAccount.setInt(5, c.getBank_Account_number());
 
-			insertAccount.setString(1, c.getAccount_name());
-			insertAccount.setString(2, c.getPassword());
-			insertAccount.setString(3, c.getName());
-			insertAccount.setDouble(4, c.getTotal_balance());
-			insertAccount.setInt(5, c.getBank_Account_number());
+				insertAccount.executeUpdate();
 
-			insertAccount.executeUpdate();
 
 		} catch (SQLException e) {
-
+			
 			e.printStackTrace();
+			
 			try {
 				conn.rollback();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
-			} finally {
+			}
+		} finally {
 				try {
 					conn.commit();
+					conn.setAutoCommit(true);
 				} catch (SQLException e2) {
 					e2.printStackTrace();
 				}
 				cf.releaseConnection(conn);
 			}
-		}
 		
 		return c;
 		
+	}
+	
+//	public void makeDepositOrWithdrawl(newBalance nb) {
+//		
+//	}
+
+
+	@Override
+	public Customer makeDepositOrWithdrawl(double newBalance, int customerId) {
+		
+		Connection conn = cf.getConnection();
+		
+		try {
+			
+			String sql = "update \"customers\" "
+						+ "set \"total_balance\" = ?"
+						+ "where \"customer_id\" = ?;";
+			
+			PreparedStatement updateBalance = conn.prepareStatement(sql);
+			
+			updateBalance.setDouble(1, newBalance);
+			updateBalance.setInt(2, customerId);
+			
+			updateBalance.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			
+		}
+		
+		
+		return null;
 	}
 }
