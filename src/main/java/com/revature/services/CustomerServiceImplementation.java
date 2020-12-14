@@ -13,6 +13,8 @@ public class CustomerServiceImplementation implements CustomerService {
 
 	private CustomerDAO cd;
 	
+	boolean accountExists = false;
+	
 	public CustomerServiceImplementation(CustomerDAO cd) {
 		this.cd = cd;
 	}
@@ -21,14 +23,17 @@ public class CustomerServiceImplementation implements CustomerService {
 	@Override
 	public Displayable login(String account_name, String password) {
 		
+		
 		try {
 			
 			Customer c = cd.findCustomerByAccountnameAndPassword(account_name, password);
 			NTCLauncher.setCurrentCustomer(c);
+			accountExists = true;
 			return c;
 			
 			
 		} catch (AccountNotFoundException | InternalErrorException e) {
+			accountExists = false;
 			return ()->e.getMessage();
 		}
 	}

@@ -5,6 +5,8 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import com.revature.launcher.Entertainment720Launcher;
+import com.revature.launcher.NTCLauncher;
 import com.revature.models.Displayable;
 import com.revature.repositories.CustomerDAO;
 import com.revature.repositories.CustomerPostgresDAO;
@@ -47,10 +49,30 @@ public class NTCMenu {
 		System.out.println("Please enter your password, then hit 'Enter': ");
 		String password = this.userIn.nextLine();
 		System.out.println(this.cs.login(account_name, password).display());
+		
+		if (this.cs.login(account_name, password).accountExists) {
+			
+			customerSubMenuTwo(cs);
+			
+		} else {
+			
+			System.out.println("Please enter a valid account name and password");
+			
+		}
 
 	}
 	
 	
+	private void customerSubMenuTwo(CustomerService cs) {
+		
+		System.out.println("BIG FFARTS ITS WORKING!");
+		System.out.println();
+		System.out.println();
+		int userChoice = this.userIn.nextInt();
+		
+		
+	}
+
 	public void employeeSubMenuOne(EmployeeService es) {
 		
 		String dummy = this.userIn.nextLine();
@@ -60,6 +82,49 @@ public class NTCMenu {
 		System.out.println("Please enter your password, then hit 'Enter': ");
 		String password = this.userIn.nextLine();
 		System.out.println(this.es.login(account_name, password).display());
+		if(NTCLauncher.getCurrentEmployee() != null) {		
+			
+			employeeSubMenuTwo(es);
+			
+		} else {
+			
+			System.out.println("Please make a valid selection");
+			
+		}
+		
+		
+	}
+	
+	public void employeeSubMenuTwo(EmployeeService es) {
+		
+//		String dummy = this.userIn.nextLine();
+		System.out.println("1. Print all customer accounts");
+		System.out.println("2. Approve new customer accounts");
+		System.out.println("3. Return to main menu");
+		int userChoice = this.userIn.nextInt();
+		
+		switch (userChoice) {
+		
+		case 1:
+			
+			CustomerDAO cd = new CustomerPostgresDAO();
+			
+			System.out.println(cd.findAll());
+		
+			break;		
+			
+		case 2:
+			
+			break;
+			
+		case 3:
+			
+			welcomeMenu();
+			
+			break;
+		
+		
+		}
 		
 	}
 
