@@ -16,8 +16,6 @@ public interface CustomerDAO {
 	public List<Customer> findAll();
 	
 	public Customer createAccount(Customer c) throws AccountNotCreatedException;
-	
-	public Customer makeDepositOrWithdrawl(double newBalance);
 
 	Customer makeDepositOrWithdrawl(double newBalance, int customerID);
 }

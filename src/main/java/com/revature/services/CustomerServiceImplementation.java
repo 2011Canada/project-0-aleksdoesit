@@ -20,7 +20,6 @@ public class CustomerServiceImplementation implements CustomerService {
 	}
 
 	
-	@Override
 	public Displayable login(String account_name, String password) {
 		
 		
@@ -38,13 +37,13 @@ public class CustomerServiceImplementation implements CustomerService {
 	}
 
 
-	@Override
+	
 	public List<Customer> printAllAccounts() {
 		return cd.findAll();
 	}
 
 
-	@Override
+	
 	public void makeDepositOrWithdrawl(double newBalance, int customerId) {
 		Customer c = cd.makeDepositOrWithdrawl(newBalance, customerId);
 		

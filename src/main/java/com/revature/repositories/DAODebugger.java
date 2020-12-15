@@ -13,9 +13,7 @@ import com.revature.services.CustomerServiceImplementation;
 
 public class DAODebugger {
 
-	public static void main(String[] args) throws AccountNotFoundException, InternalErrorException {
-		
-//		CustomerDAO cl = new CustomerServiceImplementation();
+	public static void main(String[] args) throws AccountNotFoundException, InternalErrorException, AccountNotCreatedException {
 
 		CustomerDAO cd = new CustomerPostgresDAO();
 		

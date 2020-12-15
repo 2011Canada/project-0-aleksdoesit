@@ -1,9 +1,16 @@
 package com.revature.menu;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.revature.exceptions.AccountNotCreatedException;
 import com.revature.models.Customer;
 
 public class NTCMenuDebugger {
+	
+	public static Logger NTCBankLogger = LogManager.getLogger("com.revature.NTCBank");
+
+	
 	
 	private static Customer currentCustomer;
 
@@ -20,6 +27,8 @@ public class NTCMenuDebugger {
 		NTCMenu menu = new NTCMenu();
 		
 		menu.mainMenu();
+		
+		NTCBankLogger.info("Server is now running");
 
 	}
 

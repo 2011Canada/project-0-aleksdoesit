@@ -53,7 +53,10 @@ public class NTCMenu {
 		System.out.println("Please enter your password, then hit 'Enter': ");
 		String password = this.userIn.nextLine();
 		
-
+		// THIS IS HOW TO LOG LOG ALL TRANSACTIONS AND SAVE THE VARIABLE VALUES i.e. DEPOSIT/WITHDRAW AMOUNTS
+		
+		
+		NTCMenuDebugger.NTCBankLogger.info("User is now logged in ");
 		System.out.println(this.cs.login(account_name, password).display());
 		String dummy2 = this.userIn.nextLine();
 		customerSubMenuTwo(cs);			
@@ -117,7 +120,7 @@ public class NTCMenu {
 			
 			System.out.println("Entered amount exceeds available balance, please enter a value less than your current balance of $" + NTCMenuDebugger.getCurrentCustomer().getTotal_balance());
 			
-			
+			customerSubMenuOne(cs2);
 		}
 		
 		
@@ -125,7 +128,19 @@ public class NTCMenu {
 	}
 
 	private void customerDepositSubMenuOne(CustomerService cs2) {
-		// TODO Auto-generated method stub
+		System.out.println("Your current balance is: " + NTCMenuDebugger.getCurrentCustomer().getTotal_balance());
+		System.out.println("Please enter the amount you would like to deposit, then hit 'Enter'");
+		double userAmount = this.userIn.nextDouble();
+		
+		double newBalance = NTCMenuDebugger.getCurrentCustomer().getTotal_balance() + userAmount;
+		
+		int customerId = NTCMenuDebugger.getCurrentCustomer().getCustomerId();
+		
+		cs2.makeDepositOrWithdrawl(newBalance, customerId);
+		
+		System.out.println("Deposit successful. Your new account balance is: " + newBalance);
+		
+		customerSubMenuOne(cs2);
 		
 	}
 
