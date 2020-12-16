@@ -27,9 +27,6 @@ public class NTCMenuDebugger {
 		NTCMenu menu = new NTCMenu();
 		
 		menu.mainMenu();
-		
-		NTCBankLogger.info("Server is now running");
-
 	}
 
 }

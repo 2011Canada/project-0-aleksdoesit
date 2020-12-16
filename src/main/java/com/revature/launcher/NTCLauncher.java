@@ -1,20 +1,18 @@
 package com.revature.launcher;
-
-import java.sql.Connection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.revature.exceptions.AccountNotCreatedException;
+import com.revature.menu.NTCMenu;
 import com.revature.models.Customer;
 import com.revature.models.Employee;
 
 public class NTCLauncher {
 	
+	public static Logger NTCBankLogger = LogManager.getLogger("com.revature.NTCBank");
+	
 	private static Customer currentCustomer;
 	private static Employee currentEmployee;
-	
-	
-	
-//	public static Logger e720Logger = LogManager.getLogger("com.revature.e720");
 
 	public static Customer getCurrentCustomer() {
 		return currentCustomer;
@@ -35,10 +33,12 @@ public class NTCLauncher {
 		NTCLauncher.currentEmployee = currentEmployee;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws AccountNotCreatedException {
 
 		
-		System.out.println("hello world!");
+		NTCMenu menu = new NTCMenu();
+		
+		menu.mainMenu();
 		
 	}
 }

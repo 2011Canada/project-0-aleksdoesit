@@ -12,4 +12,5 @@ public interface EmployeeService {
 	
 	public List<Employee> printAllAccounts();
 	
+	public void customerTransactionPrint();
 }
