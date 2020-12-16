@@ -23,7 +23,7 @@ public class DAODebugger {
 		
 		int accountNumber = 10000 + new Random().nextInt(90000);
 		
-		Customer c = new Customer("moose", "password", "Mustafa Jones", 0, accountNumber);
+		Customer c = new Customer("jt", "password", "Justin Trudeau", 0, accountNumber);
 		
 		System.out.println(cd.findCustomerByAccountnameAndPassword("georgie", "password"));
 		System.out.println(ed.findEmployeeByAccountnameAndPassword("aleks", "123"));
